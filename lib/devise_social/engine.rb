@@ -7,5 +7,9 @@ module DeviseSocial
       g.assets false
       g.helper false
     end
+
+    config.to_prepare do
+      Devise::Mapping.send :include, DeviseSocial::Mapping
+    end
   end
 end
