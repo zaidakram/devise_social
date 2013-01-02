@@ -11,7 +11,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121208223917) do
+ActiveRecord::Schema.define(:version => 20130101214137) do
+
+  create_table "social_authentications", :force => true do |t|
+    t.string   "type"
+    t.integer  "authenticatable_id"
+    t.string   "authenticatable_type"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "token"
+    t.datetime "expires_at"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  add_index "social_authentications", ["authenticatable_type", "authenticatable_id"], :name => "index_social_authentications_on_authenticatable"
+  add_index "social_authentications", ["provider", "uid"], :name => "index_social_authentications_on_provider_and_uid"
+  add_index "social_authentications", ["type"], :name => "index_social_authentications_on_type"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
