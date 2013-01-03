@@ -3,6 +3,7 @@ require 'spec_helper'
 describe DeviseSocial::OmniauthCallbacksController do
 
   let(:omniauth_providers) { (1..3).map { Faker::Internet.domain_word } }
+  let(:user) { FactoryGirl.create(:user) }
 
   before :each do
     request.env["devise.mapping"] = Devise.mappings[:user]
@@ -13,11 +14,12 @@ describe DeviseSocial::OmniauthCallbacksController do
     Rails.application.reload_routes!
   end
 
-  it "has an action for each provider" do
-    omniauth_providers.each do |omniauth_provider|
-      load "app/controllers/devise_social/omniauth_callbacks_controller.rb"
-      get omniauth_provider
-      response.should be_success
+  describe "GET 'passthru'" do
+    it "signs in user" do
+      User.should_receive(:from_auth_hash).and_return(user)
+      subject.should_receive(:sign_in).with(:user, user)
+      get 'passthru', provider: omniauth_providers.first
+      response.should redirect_to(controller.send(:after_sign_in_path_for, :user))
     end
   end
 

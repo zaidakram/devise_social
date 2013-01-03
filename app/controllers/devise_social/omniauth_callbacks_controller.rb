@@ -1,10 +1,12 @@
 class DeviseSocial::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  Devise.omniauth_providers.each do |omniauth_provider|
-    define_method omniauth_provider do
-      render text: 'Success'
-    end
+  def passthru
+    user = User.from_auth_hash(auth_hash)
+    sign_in :user, user
+    redirect_to after_sign_in_path_for(resource_name)
   end
 
-  def failure
-  end
+  protected
+    def auth_hash
+      @auth_hash ||= (request.env['omniauth.auth'] || {})
+    end
 end
