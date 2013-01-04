@@ -11,7 +11,7 @@ describe DeviseSocial::OmniauthCallbacksController do
   end
 
   context "with dummy omniauth providers" do
-    before :all do
+    before :each do
       Devise.stub(:omniauth_providers).and_return(omniauth_providers)
       load "app/controllers/devise_social/omniauth_callbacks_controller.rb"
       Rails.application.reload_routes!

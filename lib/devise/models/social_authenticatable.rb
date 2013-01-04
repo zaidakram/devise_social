@@ -1,3 +1,6 @@
+require 'devise/models'
+require 'devise/omniauth'
+
 module Devise
   module Models
     module SocialAuthenticatable
