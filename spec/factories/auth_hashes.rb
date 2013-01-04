@@ -4,6 +4,6 @@ FactoryGirl.define do
   factory :auth_hash, class: OmniAuth::AuthHash do
     provider { Faker::Internet.domain_word }
     uid { Faker::Internet.user_name }
-    info_hash
+    info { FactoryGirl.create(:info_hash) }
   end
 end

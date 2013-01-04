@@ -16,8 +16,10 @@ module Devise
       end
 
       module ClassMethods
+        include Omniauthable::ClassMethods
+
         def from_auth_hash(auth_hash)
-          user = find_or_initialize_by_email(auth_hash[:info_hash][:email])
+          user = find_or_initialize_by_email(auth_hash[:info][:email])
 
           unless user.persisted?
             user.password_optional = true
