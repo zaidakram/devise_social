@@ -13,7 +13,6 @@ describe DeviseSocial::OmniauthCallbacksController do
   context "with dummy omniauth providers" do
     before :each do
       Devise.stub(:omniauth_providers).and_return(omniauth_providers)
-      load "app/controllers/devise_social/omniauth_callbacks_controller.rb"
       Rails.application.reload_routes!
     end
 
@@ -22,6 +21,7 @@ describe DeviseSocial::OmniauthCallbacksController do
     end
 
     it "has an action for each provider" do
+      load "app/controllers/devise_social/omniauth_callbacks_controller.rb"
       omniauth_providers.each do |omniauth_provider|
         User.should_receive(:from_auth_hash).and_return(user)
         subject.should_receive(:sign_in).with(:user, user)
@@ -32,6 +32,10 @@ describe DeviseSocial::OmniauthCallbacksController do
   end
 
   describe "GET 'facebook'" do
+    before :each do
+      Rails.application.reload_routes!
+    end
+
     it "signs in and redirects user" do
       User.should_receive(:from_auth_hash).and_return(user)
       subject.should_receive(:sign_in).with(:user, user)
