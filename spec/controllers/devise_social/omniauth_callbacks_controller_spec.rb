@@ -15,7 +15,9 @@ describe DeviseSocial::OmniauthCallbacksController do
   end
 
   describe "GET 'passthru'" do
-    it "signs in user" do
+    let(:auth_hash) { FactoryGirl.create(:auth_hash) }
+
+    it "signs in and redirects user" do
       User.should_receive(:from_auth_hash).and_return(user)
       subject.should_receive(:sign_in).with(:user, user)
       get 'passthru', provider: omniauth_providers.first

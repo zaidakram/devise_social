@@ -36,4 +36,24 @@ describe SocialAuthentication do
     it { should validate_presence_of(:provider) }
     it { should validate_presence_of(:uid) }
   end
+
+  describe "#from_auth_hash" do
+    let(:auth_hash) { FactoryGirl.create(:auth_hash) }
+
+    it "creates and returns a new social_authentication if it does not exist" do
+      expect {
+        social_authentication = SocialAuthentication.from_auth_hash(auth_hash)
+        social_authentication.should be_persisted
+      }.to change { SocialAuthentication.count }.by(1)
+    end
+
+    it "returns an existing social_authentication if it exists" do
+      SocialAuthentication.from_auth_hash(auth_hash)
+
+      expect {
+        social_authentication = SocialAuthentication.from_auth_hash(auth_hash)
+        social_authentication.should be_persisted
+      }.to_not change { SocialAuthentication.count }
+    end
+  end
 end

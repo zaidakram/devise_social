@@ -10,13 +10,35 @@ module Devise
 
       included do
         has_many :social_authentications, as: :authenticatable
+
+        attr_accessor :password_optional
+        attr_accessor :email_optional
       end
 
       module ClassMethods
         def from_auth_hash(auth_hash)
-          new
+          user = find_or_initialize_by_email(auth_hash[:info_hash][:email])
+
+          unless user.persisted?
+            user.password_optional = true
+            user.email_optional = true
+            user.save
+          end
+
+          user
         end
       end
+
+      protected
+        def password_required?
+          return false if password_optional
+          super if defined?(super)
+        end
+
+        def email_required?
+          return false if email_optional
+          super if defined?(super)
+        end
     end
   end
 end

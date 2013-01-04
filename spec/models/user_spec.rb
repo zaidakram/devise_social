@@ -20,9 +20,20 @@ describe User do
   describe "#from_auth_hash" do
     let(:auth_hash) { FactoryGirl.create(:auth_hash) }
 
-    it "returns user from auth_hash" do
-      user = User.from_auth_hash(auth_hash)
-      user.should_not be_nil
+    it "creates and returns a new user if it does not exist" do
+      expect {
+        user = User.from_auth_hash(auth_hash)
+        user.should be_persisted
+      }.to change { User.count }.by(1)
+    end
+
+    it "returns an existing user if it exists" do
+      User.from_auth_hash(auth_hash)
+
+      expect {
+        user = User.from_auth_hash(auth_hash)
+        user.should be_persisted
+      }.to_not change { User.count }
     end
   end
 end
