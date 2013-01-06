@@ -37,7 +37,7 @@ describe SocialAuthentication do
     it { should validate_presence_of(:uid) }
   end
 
-  describe "#from_auth_hash" do
+  describe ".from_auth_hash" do
     let(:auth_hash) { FactoryGirl.create(:auth_hash) }
 
     it "creates and returns a new social_authentication if it does not exist" do

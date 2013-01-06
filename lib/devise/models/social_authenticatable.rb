@@ -21,8 +21,8 @@ module Devise
       module ClassMethods
         include Omniauthable::ClassMethods
 
-        def from_auth_hash(auth_hash)
-          user = find_or_initialize_by_email(auth_hash[:info][:email])
+        def from_info_hash(info_hash)
+          user = find_or_initialize_by_email(info_hash[:email])
 
           unless user.persisted?
             user.password_optional = true
@@ -31,6 +31,17 @@ module Devise
           end
 
           user
+        end
+
+        def from_auth_hash(auth_hash)
+          social_authentication = SocialAuthentication.from_auth_hash(auth_hash)
+
+          if social_authentication.authenticatable.nil?
+            social_authentication.authenticatable = from_info_hash(auth_hash[:info])
+            social_authentication.save
+          end
+
+          social_authentication.authenticatable
         end
       end
 

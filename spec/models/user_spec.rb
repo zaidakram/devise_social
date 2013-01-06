@@ -17,7 +17,27 @@ describe User do
   describe "validations" do
   end
 
-  describe "#from_auth_hash" do
+  describe ".from_info_hash" do
+    let(:info_hash) { FactoryGirl.create(:info_hash) }
+
+    it "creates and returns a new user if it does not exist" do
+      expect {
+        user = User.from_info_hash(info_hash)
+        user.should be_persisted
+      }.to change { User.count }.by(1)
+    end
+
+    it "returns an existing user if it exists" do
+      User.from_info_hash(info_hash)
+
+      expect {
+        user = User.from_info_hash(info_hash)
+        user.should be_persisted
+      }.to_not change { User.count }
+    end
+  end
+
+  describe ".from_auth_hash" do
     let(:auth_hash) { FactoryGirl.create(:auth_hash) }
 
     it "creates and returns a new user if it does not exist" do

@@ -5,5 +5,10 @@ FactoryGirl.define do
     provider { Faker::Internet.domain_word }
     uid { Faker::Internet.user_name }
     info { FactoryGirl.create(:info_hash) }
+
+    trait :facebook do
+      provider 'facebook'
+      info { FactoryGirl.create(:info_hash, :facebook) }
+    end
   end
 end
