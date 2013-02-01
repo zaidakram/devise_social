@@ -35,11 +35,6 @@ describe User do
         user.should be_persisted
       }.to_not change { User.count }
     end
-
-    it "stores info hash" do
-      User.any_instance.should_receive(:store_info_hash)
-      User.from_info_hash(info_hash)
-    end
   end
 
   describe ".from_auth_hash" do
@@ -59,6 +54,16 @@ describe User do
         user = User.from_auth_hash(auth_hash)
         user.should be_persisted
       }.to_not change { User.count }
+    end
+
+    it "stores info hash in user" do
+      User.any_instance.should_receive(:store_info_hash)
+      User.from_auth_hash(auth_hash)
+    end
+
+    it "stores auth hash in authentication" do
+      SocialAuthentication.any_instance.should_receive(:store_auth_hash)
+      User.from_auth_hash(auth_hash)
     end
   end
 end

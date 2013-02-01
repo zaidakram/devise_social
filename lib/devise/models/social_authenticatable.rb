@@ -25,7 +25,6 @@ module Devise
           user = find_or_initialize_by_email(info_hash[:email])
           user.password_optional = true
           user.email_optional = true
-          user.store_info_hash(info_hash)
           user.save
           user
         end
@@ -37,6 +36,9 @@ module Devise
             social_authentication.authenticatable = from_info_hash(auth_hash[:info])
             social_authentication.save
           end
+
+          social_authentication.authenticatable.store_info_hash(auth_hash[:info])
+          social_authentication.authenticatable.save
 
           social_authentication.authenticatable
         end

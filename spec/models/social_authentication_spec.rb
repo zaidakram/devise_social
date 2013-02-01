@@ -55,10 +55,5 @@ describe SocialAuthentication do
         social_authentication.should be_persisted
       }.to_not change { SocialAuthentication.count }
     end
-
-    it "stores auth hash" do
-      SocialAuthentication.any_instance.should_receive(:store_auth_hash)
-      SocialAuthentication.from_auth_hash(auth_hash)
-    end
   end
 end
