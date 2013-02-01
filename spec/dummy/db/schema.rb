@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130101214137) do
+ActiveRecord::Schema.define(:version => 20130116142621) do
 
   create_table "social_authentications", :force => true do |t|
     t.string   "type"
