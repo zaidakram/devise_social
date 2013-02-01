@@ -23,13 +23,10 @@ module Devise
 
         def from_info_hash(info_hash)
           user = find_or_initialize_by_email(info_hash[:email])
-
-          unless user.persisted?
-            user.password_optional = true
-            user.email_optional = true
-            user.save
-          end
-
+          user.password_optional = true
+          user.email_optional = true
+          user.store_info_hash(info_hash)
+          user.save
           user
         end
 
@@ -43,6 +40,9 @@ module Devise
 
           social_authentication.authenticatable
         end
+      end
+
+      def store_info_hash(info_hash)
       end
 
       protected

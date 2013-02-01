@@ -35,6 +35,11 @@ describe User do
         user.should be_persisted
       }.to_not change { User.count }
     end
+
+    it "stores info hash" do
+      User.any_instance.should_receive(:store_info_hash)
+      User.from_info_hash(info_hash)
+    end
   end
 
   describe ".from_auth_hash" do
