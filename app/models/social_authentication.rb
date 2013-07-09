@@ -6,7 +6,7 @@ class SocialAuthentication < ActiveRecord::Base
 
   class << self
     def from_auth_hash(auth_hash)
-      social_authentication = find_or_initialize_by_provider_and_uid(auth_hash[:provider], auth_hash[:uid])
+      social_authentication = find_or_initialize_by(provider: auth_hash[:provider], uid: auth_hash[:uid])
       social_authentication.store_auth_hash(auth_hash)
       social_authentication.save
       social_authentication
