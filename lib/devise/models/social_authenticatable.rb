@@ -22,7 +22,7 @@ module Devise
         include Omniauthable::ClassMethods
 
         def from_info_hash(info_hash)
-          user = find_or_initialize_by_email(info_hash[:email])
+          user = find_or_initialize_by(email: info_hash[:email])
           user.password_optional = true
           user.email_optional = true
           user.save
