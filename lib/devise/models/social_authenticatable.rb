@@ -12,7 +12,7 @@ module Devise
       end
 
       included do
-        has_many :social_authentications, as: :authenticatable
+        has_many :social_authentications, as: :authenticatable, dependent: :destroy
 
         attr_accessor :password_optional
         attr_accessor :email_optional
