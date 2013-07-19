@@ -8,7 +8,7 @@ module DeviseSocial
       g.helper false
     end
 
-    config.to_prepare do
+    config.after_initialize do
       Devise::Mapping.send :include, DeviseSocial::Mapping
     end
   end
